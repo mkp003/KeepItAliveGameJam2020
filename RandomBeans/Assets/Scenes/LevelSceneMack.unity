@@ -211,6 +211,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 618513421409156232, guid: fae72c7ee49e918489819628263c600b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1798327bae4face4db585970fd9ea9fe,
+        type: 3}
     - target: {fileID: 907394565940558722, guid: fae72c7ee49e918489819628263c600b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -266,34 +272,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 907394565940558723, guid: fae72c7ee49e918489819628263c600b,
-        type: 3}
-      propertyPath: mapTileCenter
-      value: 
-      objectReference: {fileID: 5373040002262636564, guid: 8c7f1e03210be134ab1ad590dccb12cf,
-        type: 3}
-    - target: {fileID: 907394565940558723, guid: fae72c7ee49e918489819628263c600b,
-        type: 3}
-      propertyPath: mapTile
-      value: 
-      objectReference: {fileID: 5373040002262636564, guid: 8c7f1e03210be134ab1ad590dccb12cf,
-        type: 3}
-    - target: {fileID: 907394565940558723, guid: fae72c7ee49e918489819628263c600b,
-        type: 3}
-      propertyPath: mapTileSideTopSprite
-      value: 
-      objectReference: {fileID: 8118170082073502221, guid: d46a16048e778fa4ba130806ac11adda,
-        type: 3}
-    - target: {fileID: 907394565940558723, guid: fae72c7ee49e918489819628263c600b,
-        type: 3}
-      propertyPath: mapTileCornerSprite
-      value: 
-      objectReference: {fileID: 973389297363831182, guid: d46a16048e778fa4ba130806ac11adda,
-        type: 3}
     - target: {fileID: 907394565940558732, guid: fae72c7ee49e918489819628263c600b,
         type: 3}
       propertyPath: m_Name
       value: LevelGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752490408752298375, guid: fae72c7ee49e918489819628263c600b,
+        type: 3}
+      propertyPath: m_Name
+      value: Obstacle-Log1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fae72c7ee49e918489819628263c600b, type: 3}
