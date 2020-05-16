@@ -17,13 +17,23 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private GameObject mapTile;
 
-    [Tooltip("Container which holds the sprite times")]
+    [Tooltip("Container which holds the sprite tiles")]
     [SerializeField]
     private GameObject mapTileContainer;
 
+    [Tooltip("Container which holds the obstacles")]
+    [SerializeField]
+    private GameObject obstacleContainer;
+
+
+
     [Header("Level Attributes")]
     [SerializeField]
-    private Vector2 levelDimensions;
+    private int levelDimensionX;
+    [SerializeField]
+    private int levelDimensionY;
+    [SerializeField]
+    private int numRandomObstacles;
 
 
 
@@ -37,9 +47,10 @@ public class LevelGenerator : MonoBehaviour
 
     private void GenerateMap()
     {
-        if (levelDimensions.x > 5 || levelDimensions.y > 5)
+        if (levelDimensionX > 5 || levelDimensionY > 5)
         {
             CreateBackground();
+            CreateObstacles();
         }
         else
         {
@@ -49,17 +60,34 @@ public class LevelGenerator : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// CreateBackground will generate the background for the level.
     /// </summary>
     private void CreateBackground()
     {
-        for(int i = 0; i < levelDimensions.x; i++)
+        for(int i = 0; i < levelDimensionX; i++)
         {
-            for (int j = 0; j < levelDimensions.x; j++)
+            for (int j = 0; j < levelDimensionY; j++)
             {
                 GameObject newMapTile = Instantiate(mapTile, mapTileContainer.transform);
                 newMapTile.transform.localPosition = new Vector2(i, j);
             }
+        }
+    }
+
+
+    /// <summary>
+    /// CreateObstacles will create obstacles in the environment
+    /// </summary>
+    private void CreateObstacles()
+    {
+        int numObjectTypes = obstacles.Count;
+        int type = 0;
+        for(int i = 0; i < numRandomObstacles; i++)
+        {
+            type = Random.Range(0, numObjectTypes);
+            Vector2 obstaclePosition = new Vector2(Random.Range(0, levelDimensionX), Random.Range(0, levelDimensionY));
+            GameObject newObstacle = Instantiate(obstacles[type], obstacleContainer.transform);
+            newObstacle.transform.localPosition = new Vector2(obstaclePosition.x, obstaclePosition.y);
         }
     }
 }
