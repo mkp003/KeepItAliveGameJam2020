@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -22,6 +23,11 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private Sprite mapTileCornerSprite; // Top right
 
+    [SerializeField]
+    private GameObject startPositionPrefab;
+    [SerializeField]
+    private GameObject endPositionPrefab;
+
 
     [Tooltip("Container which holds the sprite tiles")]
     [SerializeField]
@@ -31,8 +37,6 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private GameObject obstacleContainer;
 
-
-
     [Header("Level Attributes")]
     [SerializeField]
     private int levelDimensionX;
@@ -40,10 +44,6 @@ public class LevelGenerator : MonoBehaviour
     private int levelDimensionY;
     [SerializeField]
     private int numRandomObstacles;
-
-
-
-
     
     // Start is called before the first frame update
     void Start()
@@ -56,7 +56,7 @@ public class LevelGenerator : MonoBehaviour
         if (levelDimensionX > 5 || levelDimensionY > 5)
         {
             CreateBackground();
-            
+            CreateStartAndEndPoint();
             CreateObstacles();
         }
         else
@@ -80,6 +80,32 @@ public class LevelGenerator : MonoBehaviour
                 AdjustSprite(newMapTile, i, j);
             }
         }
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void CreateStartAndEndPoint()
+    {
+        int startPositionX = UnityEngine.Random.Range(0, levelDimensionX);
+        int startPositionY = UnityEngine.Random.Range(0, levelDimensionY);
+        GameObject startPosition = Instantiate(startPositionPrefab, transform);
+        startPosition.transform.position = new Vector2(startPositionX, startPositionY);
+
+        int endPositionX = UnityEngine.Random.Range(0, levelDimensionX);
+        int endPositionY = UnityEngine.Random.Range(0, levelDimensionY);
+
+        // Ensure the start and end are far enough away.
+        while (Mathf.Abs(endPositionX - startPositionX) < 5 && Mathf.Abs(endPositionY - startPositionY) < 5)
+        {
+            endPositionX = UnityEngine.Random.Range(0, levelDimensionX);
+            endPositionY = UnityEngine.Random.Range(0, levelDimensionY);
+        }
+
+        GameObject endPosition = Instantiate(endPositionPrefab, transform);
+        endPosition.transform.position = new Vector2(endPositionX, endPositionY);
+
     }
 
 
@@ -147,11 +173,15 @@ public class LevelGenerator : MonoBehaviour
         int type = 0;
         for(int i = 0; i < numRandomObstacles; i++)
         {
-            type = Random.Range(0, numObjectTypes);
-            Vector2 obstaclePosition = new Vector2(Random.Range(0, levelDimensionX), Random.Range(0, levelDimensionY));
+            type = UnityEngine.Random.Range(0, numObjectTypes);
+            Vector2 obstaclePosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), UnityEngine.Random.Range(0, levelDimensionY));
             GameObject newObstacle = Instantiate(obstacles[type], obstacleContainer.transform);
             newObstacle.transform.localPosition = new Vector2(obstaclePosition.x, obstaclePosition.y);
-            
+            Collider[] hitColliders = Physics.OverlapSphere(newObstacle.transform.position, newObstacle.GetComponent<SphereCollider>().radius);
+            if(hitColliders.Length > 0)
+            {
+                Destroy(newObstacle);
+            }
         }
     }
 }
