@@ -266,6 +266,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 907394565940558723, guid: fae72c7ee49e918489819628263c600b,
+        type: 3}
+      propertyPath: mapTileCenter
+      value: 
+      objectReference: {fileID: 5373040002262636564, guid: 8c7f1e03210be134ab1ad590dccb12cf,
+        type: 3}
+    - target: {fileID: 907394565940558723, guid: fae72c7ee49e918489819628263c600b,
+        type: 3}
+      propertyPath: mapTile
+      value: 
+      objectReference: {fileID: 5373040002262636564, guid: 8c7f1e03210be134ab1ad590dccb12cf,
+        type: 3}
+    - target: {fileID: 907394565940558723, guid: fae72c7ee49e918489819628263c600b,
+        type: 3}
+      propertyPath: mapTileSideTopSprite
+      value: 
+      objectReference: {fileID: 8118170082073502221, guid: d46a16048e778fa4ba130806ac11adda,
+        type: 3}
+    - target: {fileID: 907394565940558723, guid: fae72c7ee49e918489819628263c600b,
+        type: 3}
+      propertyPath: mapTileCornerSprite
+      value: 
+      objectReference: {fileID: 973389297363831182, guid: d46a16048e778fa4ba130806ac11adda,
+        type: 3}
     - target: {fileID: 907394565940558732, guid: fae72c7ee49e918489819628263c600b,
         type: 3}
       propertyPath: m_Name
