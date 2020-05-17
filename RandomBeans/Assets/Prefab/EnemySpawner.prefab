@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363b7d5acd5f5934bb31ea23da62d678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: {fileID: 6151816295156168402, guid: 520200a5c1e498344a3b64244b9ec22b,
+  enemyType: {fileID: 5137515152512123867, guid: 17540d3e32b97114195ed735e0e1fd8b,
     type: 3}
   spawnTime: 5
   spawnAutomatically: 1
