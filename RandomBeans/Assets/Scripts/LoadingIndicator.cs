@@ -8,15 +8,38 @@ public class LoadingIndicator : MonoBehaviour
 {
     [SerializeField]
     private Text loadingText;
+
+    private bool isLoading = true;
+
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(LoadingActions());
+    }
+
+    private IEnumerator LoadingActions()
+    {
+        int count = 0;
+        while (isLoading)
+        {
+            yield return new WaitForSeconds(0.5f);
+            loadingText.text = "Please Wait";
+            for(int i = 0; i <= count; i++)
+            {
+                loadingText.text = loadingText.text + ".";
+            }
+            if(count == 5)
+            {
+                count = 0;
+            }
+            count++;
+        }
         
     }
 
-    /*private IEnumerator LoadingActions()
+
+    public void SetLoadingStatus(bool _val)
     {
-        int count = 0;
-        
-    }*/
+        isLoading = false;
+    }
 }

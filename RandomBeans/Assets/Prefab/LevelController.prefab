@@ -73,6 +73,7 @@ MonoBehaviour:
   numFollowers: 0
   levelFailedUI: {fileID: 0}
   levelPassUI: {fileID: 0}
+  levelLoadingUI: {fileID: 7574038019274860962}
 --- !u!1 &1023283417733356317
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +108,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 88.399994, y: 78}
+  m_AnchoredPosition: {x: 196, y: 78}
   m_SizeDelta: {x: 351.2117, y: 55.23044}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8658500250537481137
@@ -144,7 +145,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -199,7 +200,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &627044495020645923
 RectTransform:
   m_ObjectHideFlags: 0
@@ -583,4 +584,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078b9ea6b98c6e14abca45bfa461c759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingText: {fileID: 0}
+  loadingText: {fileID: 2525761816714360733}

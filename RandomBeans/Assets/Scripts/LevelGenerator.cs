@@ -64,6 +64,8 @@ public class LevelGenerator : MonoBehaviour
     private GameObject levelFailedUI;
     [SerializeField]
     private GameObject levelPassUI;
+    [SerializeField]
+    private GameObject levelLoadingUI;
 
     private Vector2 playerStartPosition;
     private GameObject currentPlayer;
@@ -123,6 +125,7 @@ public class LevelGenerator : MonoBehaviour
                 yield return null;
             }
             CreatePlayerAndFollowers();
+            TurnOffLoadingScreen();
         }
         else
         {
@@ -306,7 +309,7 @@ public class LevelGenerator : MonoBehaviour
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(obstaclePosition, 7);
             while(hitColliders.Length != 0)
             {
-                if(timer > 200)
+                if(timer > 500)
                 {
                     Debug.Log("Too many collisions! stoped creating new objects");
                     areObstaclesCreated = true;
@@ -365,14 +368,28 @@ public class LevelGenerator : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// NextLevel will send the user to the next level
+    /// </summary>
     public void NextLevel()
     {
         SceneManager.LoadScene("MainGame");
     }
 
+
+    /// <summary>
+    /// BackToMenu sends the user back to the main menu
+    /// </summary>
     public void BackToMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+
+    private void TurnOffLoadingScreen()
+    {
+        levelLoadingUI.GetComponent<LoadingIndicator>().SetLoadingStatus(false);
+        levelLoadingUI.SetActive(false);
     }
 
 }
