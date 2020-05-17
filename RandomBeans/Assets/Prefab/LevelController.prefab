@@ -65,7 +65,7 @@ MonoBehaviour:
   levelDimensionX: 75
   levelDimensionY: 75
   numRandomObstacles: 100
-  numFollowers: 2
+  numFollowers: 0
 --- !u!1 &1585490705409818015
 GameObject:
   m_ObjectHideFlags: 0
