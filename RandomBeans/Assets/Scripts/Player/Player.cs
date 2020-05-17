@@ -6,7 +6,7 @@ using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-public class TopDownPlayerMovement : MonoBehaviour
+public class Player : Person
 {
     [SerializeField] private ConeOfVision coneOfVision;
     public float moveSpeed = 5f;
@@ -25,6 +25,7 @@ public class TopDownPlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        health = 100;
         cam = FindObjectOfType<Camera>();
         animator = GetComponent<Animator>();
         coneOfVision = GameObject.FindGameObjectWithTag("VisionCone").GetComponent<ConeOfVision>();

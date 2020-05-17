@@ -23,7 +23,7 @@ public class Zombie : Enemy
     public LayerMask targetLayer;
     public Transform attackPos;
     public float attackRange;
-    public int damage;
+    public int damage = 20;
 
     //public GameObject deathEffect;
 
@@ -68,7 +68,7 @@ public class Zombie : Enemy
     {
         GameObject target = collision.gameObject;
         
-        if (target.tag.Equals("Player") || target.tag.Equals("Follower") && !isAttacking)
+        if (target.tag.Equals("Player") || target.tag.Equals("Follower"))
         {
             inAttackRange = true;
         }
@@ -78,7 +78,7 @@ public class Zombie : Enemy
     {
         GameObject target = collision.gameObject;
 
-        if (target.tag.Equals("Player") || target.tag.Equals("Follower") && !isAttacking)
+        if (target.tag.Equals("Player") || target.tag.Equals("Follower"))
         {
             inAttackRange = false;
         }
@@ -90,7 +90,7 @@ public class Zombie : Enemy
         {
             StartCoroutine(ZombieAttack());
         }
-       else if (!isAttacking)
+       else if (!isAttacking && !inAttackRange)
        {
             isWalking = true;
             transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed);
@@ -106,14 +106,17 @@ public class Zombie : Enemy
     {
         isWalking = false;
         isAttacking = true;
-        Debug.Log("ZOMBIE ATTACK!");
-        yield return new WaitForSeconds(1f);
+        
+        
 
         Collider2D[] targets = Physics2D.OverlapCircleAll(attackPos.position, attackRange, targetLayer);
         for (int i = 0; i < targets.Length; i++)
         {
             targets[i].GetComponent<Person>().TakeDamage(damage);
+            Debug.Log("ZOMBIE ATTACK! " + targets[i].name + " health" + targets[i].GetComponent<Person>().health);
         }
+
+        yield return new WaitForSeconds(1f);
 
         isAttacking = false;
 
@@ -156,5 +159,11 @@ public class Zombie : Enemy
         inRange.SetRight(idle);
 
         zombieAI = inRange;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
 }

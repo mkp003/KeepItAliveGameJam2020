@@ -25,7 +25,7 @@ public class Shooting : MonoBehaviour
     public float accuracyLimit = 30f;
     public float accuracySpeed = 20f;
 
-    private TopDownPlayerMovement playerScript;
+    private Player playerScript;
 
     public Vector3 targetDirection;
 
@@ -42,7 +42,7 @@ public class Shooting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerScript = GetComponent<TopDownPlayerMovement>();
+        playerScript = GetComponent<Player>();
         animator = GetComponent<Animator>();
         ammunition = pistolMax;
         pistolShot = GetComponent<AudioSource>();
