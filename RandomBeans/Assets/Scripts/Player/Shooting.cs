@@ -16,6 +16,8 @@ public class Shooting : MonoBehaviour
     public GameObject impactEffect;
 
     public LineRenderer shotLine;
+    public LineRenderer rightAimLine;
+    public LineRenderer leftAimLine;
 
     Animator animator;
 
@@ -31,6 +33,11 @@ public class Shooting : MonoBehaviour
     public int pistolMax = 7;
     public bool isReloading = false;
 
+    public float minBoundDist = 1f;
+    public float maxBoundDist = 5f;
+
+    private AudioSource pistolShot;
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +45,7 @@ public class Shooting : MonoBehaviour
         playerScript = GetComponent<TopDownPlayerMovement>();
         animator = GetComponent<Animator>();
         ammunition = pistolMax;
+        pistolShot = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -65,7 +73,18 @@ public class Shooting : MonoBehaviour
 
     void Aiming()
     {
+       
         playerScript.isShooting = true;
+
+        if (!rightAimLine.enabled)
+        {
+            rightAimLine.enabled = true;
+        }
+
+        if (!leftAimLine.enabled)
+        {
+            leftAimLine.enabled = true;
+        }
 
         if (accuracyCurrent < accuracyLimit)
         {
@@ -79,18 +98,37 @@ public class Shooting : MonoBehaviour
                 accuracyCurrent = accuracyLimit;
             }
         }
-        
+
+        Vector3 firePointBase = firePoint.up.normalized;
+        float firePointAngle = Mathf.Atan2(firePointBase.y, firePointBase.x) * Mathf.Rad2Deg;
+        if (firePointAngle < 0) firePointAngle += 360;
+
+        float accuracyBound = accuracyLimit - accuracyCurrent;
+
+        // Determine angle bounds
+        float firePointAngleRC = firePointAngle - accuracyBound;
+        if (firePointAngleRC < 0) firePointAngleRC += 360;
+        float firePointAngleLC = firePointAngle + accuracyBound;
+        if (firePointAngleLC >= 360) firePointAngleLC -= 360;
+
+        float firePointAngleRadRC = firePointAngleRC * (Mathf.PI / 180f);
+        Vector3 rightBound = new Vector3(Mathf.Cos(firePointAngleRadRC), Mathf.Sin(firePointAngleRadRC));
+        rightAimLine.SetPosition(0, firePoint.position + rightBound * minBoundDist);
+        rightAimLine.SetPosition(1, firePoint.position + rightBound * maxBoundDist);
+
+        float firePointAngleRadLC = firePointAngleLC * (Mathf.PI / 180f);
+        Vector3 leftBound = new Vector3(Mathf.Cos(firePointAngleRadLC), Mathf.Sin(firePointAngleRadLC));
+        leftAimLine.SetPosition(0, firePoint.position + leftBound * minBoundDist);
+        leftAimLine.SetPosition(1, firePoint.position + leftBound * maxBoundDist);
+
+
     }
 
     // Raycast version!!!
     IEnumerator Shoot()
     {
-        /*
-        targetDirection = firePoint.position + firePoint.up.normalized;
-        targetDirection.Normalize();
-        targetDirection.x += Random.Range(-accuracyCurrent, accuracyCurrent);
-        targetDirection.y += Random.Range(-accuracyCurrent, accuracyCurrent);
-        */
+        rightAimLine.enabled = false;
+        leftAimLine.enabled = false;
 
         Vector3 firePointBase = firePoint.up.normalized;
         float firePointAngle = Mathf.Atan2(firePointBase.y, firePointBase.x) * Mathf.Rad2Deg;
@@ -129,6 +167,8 @@ public class Shooting : MonoBehaviour
         }
 
         animator.SetTrigger("Shoot");
+
+        pistolShot.Play();
 
         shotLine.enabled = true;
 

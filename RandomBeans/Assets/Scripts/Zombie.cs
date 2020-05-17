@@ -6,19 +6,22 @@ using System.Security.Cryptography;
 using System.Threading;
 using UnityEngine;
 
-public class Zombie : MonoBehaviour
+public class Zombie : Enemy
 {
     public Transform player;
 
-    public float attackDistance = 1;
+    public float attackDistance = 25.0f;
 
     private bool canAttack = true;
+
+    //public GameObject deathEffect;
 
     AIController zombieAI;
 
     // Start is called before the first frame update
     void Start()
     {
+        health = 20;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         BuildZombieAI();
     }
@@ -31,14 +34,13 @@ public class Zombie : MonoBehaviour
 
     public bool PlayerInRange()
     {
-        if(Vector3.Distance(gameObject.transform.position, player.position) < attackDistance)
+        float distance = Vector3.Distance(gameObject.transform.position, player.position);
+        if (distance < attackDistance)
         {
-            Debug.Log("Player in Distance");
             return true;
         }
         else
         {
-            Debug.Log("Player not in distance");
             return false;
         }
 
@@ -46,16 +48,31 @@ public class Zombie : MonoBehaviour
 
     public void Attack()
     {
-        Debug.Log("Attack");
-        //gameObject.SendMessage("setTarget", player.transform);
+        transform.position = Vector3.MoveTowards(transform.position, player.position, (float)0.01);
     }
 
     public void Idle()
     {
-        Debug.Log("Idle");
-        transform.position = Vector3.MoveTowards(transform.position, player.position,(float) 0.01);
+
+    }
+/*
+    public void TakeDamage(int dmg)
+    {
+        health -= dmg;
+
+        if(health <= 0)
+        {
+            Die();
+        }
     }
 
+    public void Die()
+    {
+        GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
+        Destroy(effect, 2f);
+        Destroy(gameObject);
+    }
+*/
     void BuildZombieAI()
     {
         AIController inRange = new AIController();
