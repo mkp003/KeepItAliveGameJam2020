@@ -15,6 +15,8 @@ public class TopDownPlayerMovement : MonoBehaviour
 
     public bool isShooting = false;
 
+    public Animator legs;
+
     Vector2 movement;
     Vector2 mousePos;
 
@@ -35,7 +37,14 @@ public class TopDownPlayerMovement : MonoBehaviour
 
         float overallMoveSpeed = Mathf.Abs(movement.x) + Mathf.Abs(movement.y);
 
-        animator.SetFloat("Speed", overallMoveSpeed);
+        if (!isShooting)
+        {
+            animator.SetFloat("Speed", overallMoveSpeed);
+        } else
+        {
+            animator.SetFloat("Speed", 0f);
+        }
+        
 
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
     }

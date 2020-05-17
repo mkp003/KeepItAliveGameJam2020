@@ -229,6 +229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 800448528}
   - component: {fileID: 800448529}
+  - component: {fileID: 800448530}
   m_Layer: 0
   m_Name: Legs
   m_TagString: Untagged
@@ -300,6 +301,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &800448530
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800448527}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c6279386d1028044790dc9bbbd1cca18, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1954485540 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3073925253503542860, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
@@ -319,6 +339,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3073925253503542848, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
+        type: 3}
+      propertyPath: coneOfVision
+      value: 
+      objectReference: {fileID: 112486383554310711, guid: 2c5f99c60942ac843bd871dcad019a44,
+        type: 3}
     - target: {fileID: 3073925253503542860, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
         type: 3}
       propertyPath: m_Name
@@ -392,6 +418,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 6151816295156168402, guid: 520200a5c1e498344a3b64244b9ec22b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6151816295156168406, guid: 520200a5c1e498344a3b64244b9ec22b,
         type: 3}
