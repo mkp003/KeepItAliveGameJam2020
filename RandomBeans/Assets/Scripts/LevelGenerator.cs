@@ -15,7 +15,7 @@ public class LevelGenerator : MonoBehaviour
     [Tooltip("Enemy Spawner")]
     private GameObject enempySpawnerPrefab;
 
-    [Tooltip("Tile to create the map with")]
+    [Tooltip("Tile assets to create the map with")]
     [SerializeField]
     private GameObject mapTile;
     [SerializeField]
@@ -24,9 +24,14 @@ public class LevelGenerator : MonoBehaviour
     private Sprite mapTileCornerSprite; // Top right
 
     [SerializeField]
-    private GameObject startPositionPrefab;
-    [SerializeField]
     private GameObject endPositionPrefab;
+
+    [SerializeField]
+    private GameObject playerPrefab;
+
+    [SerializeField]
+    private GameObject followerPrefab;
+
 
 
     [Tooltip("Container which holds the sprite tiles")]
@@ -44,6 +49,11 @@ public class LevelGenerator : MonoBehaviour
     private int levelDimensionY;
     [SerializeField]
     private int numRandomObstacles;
+    [SerializeField]
+    [Range(1, 4)]
+    private int numFollowers;
+
+    private Vector2 playerStartPosition;
     
     // Start is called before the first frame update
     void Start()
@@ -51,13 +61,19 @@ public class LevelGenerator : MonoBehaviour
         GenerateMap();
     }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
     private void GenerateMap()
     {
         if (levelDimensionX > 5 || levelDimensionY > 5)
         {
             CreateBackground();
-            CreateStartAndEndPoint();
             CreateObstacles();
+            CreateStartAndEndPoint();
+            CreatePlayerAndFollowers();
+            CreateFollowers();
         }
         else
         {
@@ -83,16 +99,35 @@ public class LevelGenerator : MonoBehaviour
     }
 
 
+    private void CreatePlayerAndFollowers()
+    {
+        GameObject player = Instantiate(playerPrefab, transform);
+        player.transform.position = playerStartPosition;
+        for(int i = 0; i < numFollowers; i++)
+        {
+            GameObject follower = Instantiate(followerPrefab, transform);
+            player.transform.position = playerStartPosition;
+        }
+    }
+
+
+    private void CreateFollowers()
+    {
+
+    }
+
+
     /// <summary>
     /// 
     /// </summary>
     private void CreateStartAndEndPoint()
     {
+        // Generate start position
         int startPositionX = UnityEngine.Random.Range(0, levelDimensionX);
         int startPositionY = UnityEngine.Random.Range(0, levelDimensionY);
-        GameObject startPosition = Instantiate(startPositionPrefab, transform);
-        startPosition.transform.position = new Vector2(startPositionX, startPositionY);
+        playerStartPosition = new Vector2(startPositionX, startPositionY);
 
+        // Get an initial end position
         int endPositionX = UnityEngine.Random.Range(0, levelDimensionX);
         int endPositionY = UnityEngine.Random.Range(0, levelDimensionY);
 
@@ -177,7 +212,7 @@ public class LevelGenerator : MonoBehaviour
             Vector2 obstaclePosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), UnityEngine.Random.Range(0, levelDimensionY));
             GameObject newObstacle = Instantiate(obstacles[type], obstacleContainer.transform);
             newObstacle.transform.localPosition = new Vector2(obstaclePosition.x, obstaclePosition.y);
-            Collider[] hitColliders = Physics.OverlapSphere(newObstacle.transform.position, newObstacle.GetComponent<SphereCollider>().radius);
+            Collider[] hitColliders = Physics.OverlapSphere(newObstacle.transform.position, newObstacle.GetComponent<CircleCollider2D>().radius);
             if(hitColliders.Length > 0)
             {
                 Destroy(newObstacle);

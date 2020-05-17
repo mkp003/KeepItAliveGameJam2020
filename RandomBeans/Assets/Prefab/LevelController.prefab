@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 907394565940558722}
   - component: {fileID: 907394565940558723}
   m_Layer: 0
-  m_Name: LevelGenerator
+  m_Name: LevelController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,19 +49,23 @@ MonoBehaviour:
   - {fileID: 5522508333640663567, guid: d1f0e539e6f0de34e9119318a9e32cdf, type: 3}
   - {fileID: 8148640901637110005, guid: 25b55881a4309364e869260235432872, type: 3}
   - {fileID: 5341521536871140067, guid: 90e6781a454dec54d87f86d6148881a3, type: 3}
-  - {fileID: 1609026331133881979, guid: d7ca6e78b96984149b0823c4c3ebc71b, type: 3}
-  - {fileID: 2496397452765587996, guid: 035f366e9cac60c408815786e4ec3fc0, type: 3}
-  - {fileID: 1052867652242131082, guid: f19629a2d1d35d94b96f0f420aa53560, type: 3}
   mapTile: {fileID: 5373040002262636564, guid: 8c7f1e03210be134ab1ad590dccb12cf, type: 3}
   mapTileSideTopSprite: {fileID: 8118170082073502221, guid: d46a16048e778fa4ba130806ac11adda,
     type: 3}
   mapTileCornerSprite: {fileID: 973389297363831182, guid: d46a16048e778fa4ba130806ac11adda,
     type: 3}
+  endPositionPrefab: {fileID: 5692215568887960855, guid: fe1c9e0aa9552524ea313e51ead06a03,
+    type: 3}
+  playerPrefab: {fileID: 3073925253503542860, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
+    type: 3}
+  followerPrefab: {fileID: 3073925253503542860, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
+    type: 3}
   mapTileContainer: {fileID: 5879125591985422831}
   obstacleContainer: {fileID: 1585490705409818015}
-  levelDimensionX: 50
-  levelDimensionY: 50
+  levelDimensionX: 75
+  levelDimensionY: 75
   numRandomObstacles: 100
+  numFollowers: 2
 --- !u!1 &1585490705409818015
 GameObject:
   m_ObjectHideFlags: 0
