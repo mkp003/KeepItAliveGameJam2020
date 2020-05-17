@@ -22,7 +22,7 @@ public class Zombie : Enemy
 
     public LayerMask targetLayer;
     public Transform attackPos;
-    public float attackRange;
+    public float attackRange = 2;
     public int damage = 20;
 
     //public GameObject deathEffect;
@@ -106,17 +106,19 @@ public class Zombie : Enemy
     {
         isWalking = false;
         isAttacking = true;
-        
-        
+
+
+        yield return new WaitForSeconds(0.25f);
 
         Collider2D[] targets = Physics2D.OverlapCircleAll(attackPos.position, attackRange, targetLayer);
         for (int i = 0; i < targets.Length; i++)
         {
+            Debug.Log(targets[i].name + " " + i);
             targets[i].GetComponent<Person>().TakeDamage(damage);
             Debug.Log("ZOMBIE ATTACK! " + targets[i].name + " health" + targets[i].GetComponent<Person>().health);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.75f);
 
         isAttacking = false;
 

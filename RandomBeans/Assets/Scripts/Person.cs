@@ -8,7 +8,8 @@ public class Person : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
+        health = health - damage;
+        Debug.Log("Damage taken! New health is " + health);
         if (health <= 0)
         {
             Die();

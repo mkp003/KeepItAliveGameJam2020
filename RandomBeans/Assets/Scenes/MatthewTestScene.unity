@@ -130,7 +130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 598801037}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AttackPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +158,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1126525284, guid: a8a05fb5d88f90e4394606b7ea8fc6ae, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1954485549, guid: a8a05fb5d88f90e4394606b7ea8fc6ae, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1954485549, guid: a8a05fb5d88f90e4394606b7ea8fc6ae, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1954485549, guid: a8a05fb5d88f90e4394606b7ea8fc6ae, type: 3}
+      propertyPath: m_Radius
+      value: 0.66
+      objectReference: {fileID: 0}
     - target: {fileID: 3073925253503542860, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
         type: 3}
       propertyPath: m_Name
@@ -218,7 +234,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3073925253503542850, guid: a8a05fb5d88f90e4394606b7ea8fc6ae, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a8a05fb5d88f90e4394606b7ea8fc6ae, type: 3}
 --- !u!1 &1006424314 stripped
 GameObject:
@@ -562,6 +579,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zombie
       objectReference: {fileID: 0}
+    - target: {fileID: 5137515152512123867, guid: 17540d3e32b97114195ed735e0e1fd8b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5137515152512123871, guid: 17540d3e32b97114195ed735e0e1fd8b,
         type: 3}
       propertyPath: rb
@@ -582,6 +604,16 @@ PrefabInstance:
         type: 3}
       propertyPath: targetLayer.m_Bits
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137515152512123871, guid: 17540d3e32b97114195ed735e0e1fd8b,
+        type: 3}
+      propertyPath: damage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137515152512123871, guid: 17540d3e32b97114195ed735e0e1fd8b,
+        type: 3}
+      propertyPath: attackRange
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17540d3e32b97114195ed735e0e1fd8b, type: 3}
