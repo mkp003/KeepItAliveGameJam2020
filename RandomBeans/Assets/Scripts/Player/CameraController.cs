@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour
     public void SetPlayer(GameObject _player)
     {
         player = _player;
+        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z -10);
         offset = transform.position - player.transform.position;
         isPlayerActive = true;
         Debug.Log(offset);

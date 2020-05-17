@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -157,7 +158,7 @@ public class LevelGenerator : MonoBehaviour
     {
         GameObject player = Instantiate(playerPrefab, transform);
         player.transform.position = playerStartPosition;
-        //FindObjectOfType<Camera>().GetComponent<CameraController>().SetPlayer(player);
+        FindObjectOfType<Camera>().GetComponent<CameraController>().SetPlayer(player);
         for (int i = 0; i < numFollowers; i++)
         {
             GameObject follower = Instantiate(followerPrefab, transform);
@@ -214,6 +215,7 @@ public class LevelGenerator : MonoBehaviour
         // Create the end position
         GameObject endGoal = Instantiate(endPositionPrefab, transform);
         endGoal.transform.position = new Vector2(endPositionX, endPositionY);
+        endGoal.GetComponentInChildren<ExitLevel>().SetLevelGenerator(this);
 
         areStartandEndCreated = true;
     }
@@ -313,7 +315,9 @@ public class LevelGenerator : MonoBehaviour
     /// </summary>
     public void FinishLevel()
     {
-        if(numberOfFollowersEscaped != 0)
+        // Cast to see if there is a follower nearby
+
+        if(numberOfFollowersEscaped == 0)
         {
             levelFailedUI.GetComponent<LevelFailedUI>().SetFailedReason("No followers escaped!");
             levelFailedUI.SetActive(true);
@@ -337,4 +341,16 @@ public class LevelGenerator : MonoBehaviour
     {
         numberOfFollowersEscaped++;
     }
+
+
+    public void NextLevel()
+    {
+        SceneManager.LoadScene("MainGame");
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
 }
