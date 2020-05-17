@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+//using System.Diagnostics;
 using UnityEngine;
 
 public class playerFollower : MonoBehaviour
@@ -10,6 +11,7 @@ public class playerFollower : MonoBehaviour
     private bool isFollowingPLayer;
     private Vector3 targetLocation;
     public Rigidbody2D rb;
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -55,5 +57,6 @@ public class playerFollower : MonoBehaviour
 
     public void toggleFollow() {
         isFollowingPLayer = !isFollowingPLayer;
+        animator.SetBool("isWalking", isFollowingPLayer);
     }
 }

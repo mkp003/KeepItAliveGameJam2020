@@ -257,13 +257,13 @@ public class LevelGenerator : MonoBehaviour
         // Ensure the start and end are far enough away.
         while (Mathf.Abs(endPositionX - startPositionX) < 20 && Mathf.Abs(endPositionY - startPositionY) < 20)
         {
-            endPositionX = UnityEngine.Random.Range(2, levelDimensionX - 2);
-            endPositionY = UnityEngine.Random.Range(2, levelDimensionY - 2);
+            endPositionX = UnityEngine.Random.Range(10, levelDimensionX - 10);
+            endPositionY = UnityEngine.Random.Range(10, levelDimensionY - 10);
         }
         Vector2 endPosition = new Vector2(endPositionX, endPositionY);
 
         // Remove any objects near the end
-        hitColliders = Physics2D.OverlapCircleAll(endPosition, 20, 11);
+        hitColliders = Physics2D.OverlapCircleAll(endPosition, 10);
         foreach (Collider2D collider in hitColliders)
         {
             if (collider.gameObject.tag != "Endpoint")
@@ -275,6 +275,9 @@ public class LevelGenerator : MonoBehaviour
         GameObject endGoal = Instantiate(endPositionPrefab, transform);
         endGoal.transform.position = new Vector2(endPositionX, endPositionY);
         endGoal.GetComponentInChildren<ExitLevel>().SetLevelGenerator(this);
+
+        int randomRotate = UnityEngine.Random.Range(0, 4);
+        endGoal.transform.Rotate(0, 0, 90 * randomRotate);
 
         areStartandEndCreated = true;
     }
