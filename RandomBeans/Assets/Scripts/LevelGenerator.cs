@@ -197,7 +197,6 @@ public class LevelGenerator : MonoBehaviour
     /// <returns></returns>
     private IEnumerator CreateEnemySpawnPoints()
     {
-        Debug.LogError("About to create spawners");
         for (int i = 0; i < numEnemySpawners; i++)
         {
             Vector2 enemyPosition = new Vector2(UnityEngine.Random.Range(3, levelDimensionX - 3), UnityEngine.Random.Range(3, levelDimensionY - 3));
@@ -210,7 +209,6 @@ public class LevelGenerator : MonoBehaviour
             }
             GameObject newEnemy = Instantiate(enempySpawnerPrefab, transform);
             newEnemy.transform.position = new Vector2(enemyPosition.x, enemyPosition.y);
-            Debug.LogError("Enemey spawn Created!");
         }
         areEnemySpawnPointsCreated = true;
     }
@@ -349,7 +347,8 @@ public class LevelGenerator : MonoBehaviour
         for(int i = 0; i < numRandomObstacles; i++)
         {
             type = UnityEngine.Random.Range(0, numObjectTypes);
-            Vector2 obstaclePosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), UnityEngine.Random.Range(0, levelDimensionY));
+            Vector2 obstaclePosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), 
+                UnityEngine.Random.Range(0, levelDimensionY));
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(obstaclePosition, 7);
             while(hitColliders.Length != 0)
             {
