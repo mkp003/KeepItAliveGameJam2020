@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Zombie : Enemy
 {
-    public Transform player;
+    public Transform target;
 
     public float moveSpeed = 0.0075f;
 
@@ -33,16 +33,16 @@ public class Zombie : Enemy
     void Start()
     {
         health = 20;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         BuildZombieAI();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
         if ( health > 0 && !isAttacking)
         {
+            CheckSenses();
             zombieAI.Traverse();
         }
         animator.SetInteger("Health", health);
@@ -50,18 +50,46 @@ public class Zombie : Enemy
         animator.SetBool("IsWalking", isWalking);
     }
 
-    public bool PlayerInRange()
+    public bool TargetInRange()
     {
-        float distance = Vector3.Distance(gameObject.transform.position, player.position);
-        if (distance < sensesDistance)
-        {
-            return true;
-        }
-        else
+        if (target == null)
         {
             return false;
         }
+        else
+        {
+            float distance = Vector3.Distance(gameObject.transform.position, target.position);
+            if (distance < sensesDistance)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+    }
 
+    public void CheckSenses()
+    {
+        Collider2D[] potentialTargets = Physics2D.OverlapCircleAll(transform.position, sensesDistance, targetLayer);
+        float minDistance = 100f;
+        Transform newTarget = null;
+        for (int i = 0; i < potentialTargets.Length; i++)
+        {
+            float testDistance = Vector3.Distance(potentialTargets[i].transform.position, transform.position);
+            if (testDistance < minDistance)
+            {
+                minDistance = testDistance;
+                newTarget = potentialTargets[i].transform;
+            }
+        }
+
+        if (newTarget != null)
+        {
+            target = newTarget;
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -93,8 +121,8 @@ public class Zombie : Enemy
        else if (!isAttacking && !inAttackRange)
        {
             isWalking = true;
-            transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed);
-            Vector2 lookDir = transform.position - player.position;
+            transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed);
+            Vector2 lookDir = transform.position - target.position;
             lookDir.Normalize();
             float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
             rb.rotation = angle - 90;
@@ -113,9 +141,7 @@ public class Zombie : Enemy
         Collider2D[] targets = Physics2D.OverlapCircleAll(attackPos.position, attackRange, targetLayer);
         for (int i = 0; i < targets.Length; i++)
         {
-            Debug.Log(targets[i].name + " " + i);
             targets[i].GetComponent<Person>().TakeDamage(damage);
-            Debug.Log("ZOMBIE ATTACK! " + targets[i].name + " health" + targets[i].GetComponent<Person>().health);
         }
 
         yield return new WaitForSeconds(0.75f);
@@ -149,7 +175,7 @@ public class Zombie : Enemy
     void BuildZombieAI()
     {
         AIController inRange = new AIController();
-        inRange.SetChoice(PlayerInRange);
+        inRange.SetChoice(TargetInRange);
 
         AIController attack = new AIController();
         attack.SetCommand(Aggressive);
