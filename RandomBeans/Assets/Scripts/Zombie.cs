@@ -10,6 +10,8 @@ public class Zombie : Enemy
 {
     public Transform player;
 
+    public Animator animator;
+
     public float attackDistance = 25.0f;
 
     private bool canAttack = true;
@@ -29,6 +31,7 @@ public class Zombie : Enemy
     // Update is called once per frame
     void Update()
     {
+        gameObject.transform.LookAt(player.transform, Vector3.up);
         zombieAI.Traverse();
     }
 
@@ -48,7 +51,8 @@ public class Zombie : Enemy
 
     public void Attack()
     {
-        transform.position = Vector3.MoveTowards(transform.position, player.position, (float)0.01);
+        animator.SetBool("IsWalking", true);
+        transform.position = Vector3.MoveTowards(transform.position, player.position, 0.0075f);
     }
 
     public void Idle()
