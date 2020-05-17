@@ -20,6 +20,11 @@ public class Zombie : Enemy
     public bool isWalking = false;
     public bool inAttackRange = false;
 
+    public LayerMask targetLayer;
+    public Transform attackPos;
+    public float attackRange;
+    public int damage;
+
     //public GameObject deathEffect;
 
     AIController zombieAI;
@@ -103,6 +108,13 @@ public class Zombie : Enemy
         isAttacking = true;
         Debug.Log("ZOMBIE ATTACK!");
         yield return new WaitForSeconds(1f);
+
+        Collider2D[] targets = Physics2D.OverlapCircleAll(attackPos.position, attackRange, targetLayer);
+        for (int i = 0; i < targets.Length; i++)
+        {
+            targets[i].GetComponent<Person>().TakeDamage(damage);
+        }
+
         isAttacking = false;
 
     }
