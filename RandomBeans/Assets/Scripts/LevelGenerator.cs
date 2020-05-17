@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -31,6 +32,9 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField]
     private GameObject playerPrefab;
+
+    [SerializeField]
+    private GameObject visionConePrefab;
 
     [SerializeField]
     private GameObject followerPrefab;
@@ -63,20 +67,33 @@ public class LevelGenerator : MonoBehaviour
     private GameObject levelFailedUI;
     [SerializeField]
     private GameObject levelPassUI;
+    [SerializeField]
+    private GameObject levelLoadingUI;
 
     private Vector2 playerStartPosition;
+    private GameObject currentPlayer;
 
     private int numberOfFollowersEscaped = 0;
 
     private bool isPlayerAlive = true;
-    
+
+    private bool isBackgroundCreated = false;
+    private bool areObstaclesCreated = false;
+    private bool areNonInteractablesCreated = false;
+    private bool areStartandEndCreated = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        GenerateMap();
+        StartCoroutine(GenerateMap());
         
     }
 
+
+    /// <summary>
+    /// GetNumberOfFollowers
+    /// </summary>
+    /// <returns></returns>
     public int GetNumberOfFollowers()
     {
         return numFollowers;
@@ -86,15 +103,32 @@ public class LevelGenerator : MonoBehaviour
     /// <summary>
     /// GenerateMap will generate all the objects in the level
     /// </summary>
-    private void GenerateMap()
+    private IEnumerator GenerateMap()
     {
         if (levelDimensionX > 5 || levelDimensionY > 5)
         {
-            CreateBackground();
-            CreateObstacles();
+            StartCoroutine(CreateBackground());
+            while (!isBackgroundCreated)
+            {
+                yield return null;
+            }
+            StartCoroutine(CreateObstacles());
+            while (!areObstaclesCreated)
+            {
+                yield return null;
+            }
             CreateAdditionalItems();
+            while (!areNonInteractablesCreated)
+            {
+                yield return null;
+            }
             CreateStartAndEndPoint();
+            while (!areStartandEndCreated)
+            {
+                yield return null;
+            }
             CreatePlayerAndFollowers();
+            TurnOffLoadingScreen();
         }
         else
         {
@@ -106,7 +140,7 @@ public class LevelGenerator : MonoBehaviour
     /// <summary>
     /// CreateBackground will generate the background for the level.
     /// </summary>
-    private void CreateBackground()
+    private IEnumerator CreateBackground()
     {
         for(int i = 0; i < levelDimensionX; i++)
         {
@@ -116,18 +150,23 @@ public class LevelGenerator : MonoBehaviour
                 newMapTile.transform.localPosition = new Vector2(i, j);
                 AdjustSprite(newMapTile, i, j);
             }
+            yield return null;
         }
+        isBackgroundCreated = true;
     }
 
 
     /// <summary>
-    /// 
+    ///CreatePlayerAndFollowers will instantiate the player and followers at the 
+    ///start position.
     /// </summary>
     private void CreatePlayerAndFollowers()
     {
+        GameObject visionCone = Instantiate(visionConePrefab, transform);
         GameObject player = Instantiate(playerPrefab, transform);
         player.transform.position = playerStartPosition;
-        //FindObjectOfType<Camera>().GetComponent<CameraController>().SetPlayer(player);
+        currentPlayer = player;
+        FindObjectOfType<Camera>().GetComponent<CameraController>().SetPlayer(player);
         for (int i = 0; i < numFollowers; i++)
         {
             GameObject follower = Instantiate(followerPrefab, transform);
@@ -136,59 +175,75 @@ public class LevelGenerator : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// CreateAdditionalItems will create an assortment of non-interactable objects 
+    /// and place them n the scene for asthetic purposes.
+    /// </summary>
     private void CreateAdditionalItems()
     {
+        int numObjectTypes = astheticObjects.Count;
+        int type = 0;
+        for (int i = 0; i < numRandomAstheticObjects; i++)
+        {
+            type = UnityEngine.Random.Range(0, numObjectTypes);
+            Vector2 objPosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), UnityEngine.Random.Range(0, levelDimensionY));
+            GameObject newObj = Instantiate(astheticObjects[type], obstacleContainer.transform);
+            newObj.transform.position = new Vector2(objPosition.x, objPosition.y);
+        }
+        areNonInteractablesCreated = true;
         
     }
 
 
     /// <summary>
-    /// 
+    /// CreateStartAndEndPoint generates where the player will start and end the level.
     /// </summary>
     private void CreateStartAndEndPoint()
     {
         // Generate start position
-        int startPositionX = UnityEngine.Random.Range(0, levelDimensionX);
-        int startPositionY = UnityEngine.Random.Range(0, levelDimensionY);
+        int startPositionX = UnityEngine.Random.Range(5, levelDimensionX - 5 );
+        int startPositionY = UnityEngine.Random.Range(5, levelDimensionY - 5);
         playerStartPosition = new Vector2(startPositionX, startPositionY);
         // Remove any objects at the start position
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(playerStartPosition, 5);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(playerStartPosition, 20, 11);
         foreach(Collider2D collider in hitColliders)
         {
+            Debug.Log("Stuff at the start area, deleting now");
             Destroy(collider.gameObject);
         }
 
         // Get an initial end position
-        int endPositionX = UnityEngine.Random.Range(0, levelDimensionX);
-        int endPositionY = UnityEngine.Random.Range(0, levelDimensionY);
+        int endPositionX = UnityEngine.Random.Range(2, levelDimensionX - 2);
+        int endPositionY = UnityEngine.Random.Range(2, levelDimensionY - 2);
 
         // Ensure the start and end are far enough away.
         while (Mathf.Abs(endPositionX - startPositionX) < 5 && Mathf.Abs(endPositionY - startPositionY) < 5)
         {
-            endPositionX = UnityEngine.Random.Range(0, levelDimensionX);
-            endPositionY = UnityEngine.Random.Range(0, levelDimensionY);
+            endPositionX = UnityEngine.Random.Range(2, levelDimensionX - 2);
+            endPositionY = UnityEngine.Random.Range(2, levelDimensionY - 2);
         }
+        Vector2 endPosition = new Vector2(endPositionX, endPositionY);
 
         // Remove any objects near the end
-        hitColliders = Physics2D.OverlapCircleAll(new Vector2(endPositionX, endPositionY), 20);
+        hitColliders = Physics2D.OverlapCircleAll(endPosition, 20, 11);
         foreach (Collider2D collider in hitColliders)
         {
-            Debug.Log("Something touching the endpoint!");
             if (collider.gameObject.tag != "Endpoint")
             {
-                Debug.Log("Object in end zone!" + collider.gameObject.name);
                 Destroy(collider.gameObject);
             }
         }
         // Create the end position
-        GameObject endPosition = Instantiate(endPositionPrefab, transform);
-        endPosition.transform.position = new Vector2(endPositionX, endPositionY);
+        GameObject endGoal = Instantiate(endPositionPrefab, transform);
+        endGoal.transform.position = new Vector2(endPositionX, endPositionY);
+        endGoal.GetComponentInChildren<ExitLevel>().SetLevelGenerator(this);
 
+        areStartandEndCreated = true;
     }
 
 
     /// <summary>
-    /// 
+    /// AdjustSprite will adjust the background tiles to compensate for edges.
     /// </summary>
     /// <param name="tile"></param>
     /// <param name="currentX"></param>
@@ -239,40 +294,59 @@ public class LevelGenerator : MonoBehaviour
                 tile.transform.Rotate(0, 0, 180);
             }
         }
+        tile.AddComponent<BoxCollider2D>();
     }
 
 
     /// <summary>
     /// CreateObstacles will create obstacles in the environment
     /// </summary>
-    private void CreateObstacles()
+    private IEnumerator CreateObstacles()
     {
+        float timer = 0;
         int numObjectTypes = obstacles.Count;
         int type = 0;
         for(int i = 0; i < numRandomObstacles; i++)
         {
             type = UnityEngine.Random.Range(0, numObjectTypes);
             Vector2 obstaclePosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), UnityEngine.Random.Range(0, levelDimensionY));
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(obstaclePosition.x, obstaclePosition.y), 10);
-            if(hitColliders.Length == 0)
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(obstaclePosition, 7);
+            while(hitColliders.Length != 0)
             {
-                GameObject newObstacle = Instantiate(obstacles[type], obstacleContainer.transform);
-                newObstacle.transform.position = new Vector2(obstaclePosition.x, obstaclePosition.y);
+                if(timer > 500)
+                {
+                    Debug.Log("Too many collisions! stoped creating new objects");
+                    areObstaclesCreated = true;
+                    yield break;
+                }
+                timer += 1;
+                obstaclePosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), UnityEngine.Random.Range(0, levelDimensionY));
+                hitColliders = Physics2D.OverlapCircleAll(obstaclePosition, 7);
+                yield return null;
             }
-            else
-            {
-                Debug.LogError("Positions overlaping: " + hitColliders[0].gameObject.transform.position + obstaclePosition.x + " " + obstaclePosition.y);
-            }
+            GameObject newObstacle = Instantiate(obstacles[type], obstacleContainer.transform);
+            newObstacle.transform.position = new Vector2(obstaclePosition.x, obstaclePosition.y);
         }
+        areObstaclesCreated = true;
     }
 
 
     /// <summary>
-    /// FinishLevel will end the level when the plaer reaches the end.
+    /// FinishLevel will end the level when the player reaches the end.
     /// </summary>
     public void FinishLevel()
     {
-        if(numberOfFollowersEscaped != 0)
+        // Cast to see if there is a follower nearby
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(currentPlayer.transform.position, 10);
+        foreach(Collider2D obj in hitColliders)
+        {
+            if(obj.gameObject.tag == "Follower")
+            {
+                numberOfFollowersEscaped++;
+            }
+        }
+
+        if (numberOfFollowersEscaped == 0)
         {
             levelFailedUI.GetComponent<LevelFailedUI>().SetFailedReason("No followers escaped!");
             levelFailedUI.SetActive(true);
@@ -296,4 +370,30 @@ public class LevelGenerator : MonoBehaviour
     {
         numberOfFollowersEscaped++;
     }
+
+
+    /// <summary>
+    /// NextLevel will send the user to the next level
+    /// </summary>
+    public void NextLevel()
+    {
+        SceneManager.LoadScene("MainGame");
+    }
+
+
+    /// <summary>
+    /// BackToMenu sends the user back to the main menu
+    /// </summary>
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+
+    private void TurnOffLoadingScreen()
+    {
+        levelLoadingUI.GetComponent<LoadingIndicator>().SetLoadingStatus(false);
+        levelLoadingUI.SetActive(false);
+    }
+
 }
