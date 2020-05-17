@@ -10,11 +10,15 @@ public class Zombie : Enemy
 {
     public Transform player;
 
-    public Animator animator;
+    public float moveSpeed = 0.0075f;
 
-    public float attackDistance = 25.0f;
+    public Rigidbody2D rb;
 
-    private bool canAttack = true;
+    public float sensesDistance = 20.0f;
+
+    public bool isAttacking = false;
+    public bool isWalking = false;
+    public bool inAttackRange = false;
 
     //public GameObject deathEffect;
 
@@ -31,14 +35,20 @@ public class Zombie : Enemy
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.LookAt(player.transform, Vector3.up);
-        zombieAI.Traverse();
+
+        if ( health > 0 && !isAttacking)
+        {
+            zombieAI.Traverse();
+        }
+        animator.SetInteger("Health", health);
+        animator.SetBool("IsAttacking", isAttacking);
+        animator.SetBool("IsWalking", isWalking);
     }
 
     public bool PlayerInRange()
     {
         float distance = Vector3.Distance(gameObject.transform.position, player.position);
-        if (distance < attackDistance)
+        if (distance < sensesDistance)
         {
             return true;
         }
@@ -49,15 +59,57 @@ public class Zombie : Enemy
 
     }
 
-    public void Attack()
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        animator.SetBool("IsWalking", true);
-        transform.position = Vector3.MoveTowards(transform.position, player.position, 0.0075f);
+        GameObject target = collision.gameObject;
+        
+        if (target.tag.Equals("Player") || target.tag.Equals("Follower") && !isAttacking)
+        {
+            inAttackRange = true;
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        GameObject target = collision.gameObject;
+
+        if (target.tag.Equals("Player") || target.tag.Equals("Follower") && !isAttacking)
+        {
+            inAttackRange = false;
+        }
+    }
+
+    public void Aggressive()
+    {
+       if (!isAttacking && inAttackRange)
+        {
+            StartCoroutine(ZombieAttack());
+        }
+       else if (!isAttacking)
+       {
+            isWalking = true;
+            transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed);
+            Vector2 lookDir = transform.position - player.position;
+            lookDir.Normalize();
+            float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
+            rb.rotation = angle - 90;
+       }
+        
+    }
+
+    IEnumerator ZombieAttack()
+    {
+        isWalking = false;
+        isAttacking = true;
+        Debug.Log("ZOMBIE ATTACK!");
+        yield return new WaitForSeconds(1f);
+        isAttacking = false;
+
     }
 
     public void Idle()
     {
-
+        isWalking = false;
     }
 /*
     public void TakeDamage(int dmg)
@@ -83,7 +135,7 @@ public class Zombie : Enemy
         inRange.SetChoice(PlayerInRange);
 
         AIController attack = new AIController();
-        attack.SetCommand(Attack);
+        attack.SetCommand(Aggressive);
 
         AIController idle = new AIController();
         idle.SetCommand(Idle);
