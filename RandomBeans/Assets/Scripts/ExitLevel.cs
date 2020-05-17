@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class ExitLevel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private LevelGenerator levelGenerator;
+
+    /// <summary>
+    /// SetLevelGenerator
+    /// </summary>
+    /// <param name="levelGen"></param>
+    public void SetLevelGenerator(LevelGenerator levelGen)
     {
-        
+        levelGenerator = levelGen;
     }
 
 
