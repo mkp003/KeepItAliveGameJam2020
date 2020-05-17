@@ -13,6 +13,8 @@ public class TopDownPlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     private Camera cam;
 
+    public bool isShooting = false;
+
     Vector2 movement;
     Vector2 mousePos;
 
@@ -40,8 +42,13 @@ public class TopDownPlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        if (!isShooting)
+        {
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        }
+        
         Vector2 lookDir = mousePos - rb.position;
+        lookDir.Normalize();
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
         rb.rotation = angle;
     }
