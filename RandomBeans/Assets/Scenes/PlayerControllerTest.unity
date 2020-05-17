@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -121,6 +121,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &498625741 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+    type: 3}
+  m_PrefabInstance: {fileID: 936869012}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &766601221
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +208,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 498625741}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -263,11 +270,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: cone of vision
       objectReference: {fileID: 0}
-    - target: {fileID: 112486383554310710, guid: 2c5f99c60942ac843bd871dcad019a44,
-        type: 3}
-      propertyPath: m_TagString
-      value: VisionCone
-      objectReference: {fileID: 0}
     - target: {fileID: 112486383554310712, guid: 2c5f99c60942ac843bd871dcad019a44,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -325,6 +327,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c5f99c60942ac843bd871dcad019a44, type: 3}
+--- !u!1001 &936869012
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 766601224}
+    m_Modifications:
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857065, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287093277684857066, guid: d21ad35ba18738748bf3c4483bb0ac50,
+        type: 3}
+      propertyPath: m_Name
+      value: blackBox
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d21ad35ba18738748bf3c4483bb0ac50, type: 3}
 --- !u!1 &1954485540 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3073925253503542860, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
@@ -338,11 +409,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3073925253503542848, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
-        type: 3}
-      propertyPath: coneOfVision
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3073925253503542860, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
         type: 3}
       propertyPath: m_Name

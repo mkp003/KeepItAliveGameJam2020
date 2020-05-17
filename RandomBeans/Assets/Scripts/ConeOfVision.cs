@@ -18,7 +18,7 @@ public class ConeOfVision : MonoBehaviour
         coneOfView = new Mesh();
         GetComponent<MeshFilter>().mesh = coneOfView;
         fieldOfView = 60;
-        viewDistance = 20f;
+        viewDistance = 25f;
     }
 
     // Update is called once per frame
@@ -58,6 +58,7 @@ public class ConeOfVision : MonoBehaviour
                 triangleIndex += 3;
             }
 
+            coneOfView.bounds = new Bounds(origin, Vector3.one * 1000f);
             coneOfView.vertices = verticies;
             coneOfView.uv = uv;
             coneOfView.triangles = triangles;
