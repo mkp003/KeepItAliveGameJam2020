@@ -53,6 +53,8 @@ MonoBehaviour:
   - {fileID: 4341537399701435291, guid: d6d957f4855422143b2f8098294c12f0, type: 3}
   - {fileID: 2101603886286007128, guid: 35273b61d4a915f4eaec2b2d7c8e0211, type: 3}
   - {fileID: 6941161131492771281, guid: 4cd7e985824d5934f98ce462c7b58bde, type: 3}
+  enempySpawnerPrefab: {fileID: 5278256005418637851, guid: 615f63f254fb8d2459e74a2f1a1c13fe,
+    type: 3}
   mapTile: {fileID: 5373040002262636564, guid: 8c7f1e03210be134ab1ad590dccb12cf, type: 3}
   mapTileSideTopSprite: {fileID: 8118170082073502221, guid: d46a16048e778fa4ba130806ac11adda,
     type: 3}
@@ -70,9 +72,10 @@ MonoBehaviour:
   obstacleContainer: {fileID: 1585490705409818015}
   levelDimensionX: 75
   levelDimensionY: 75
-  numRandomObstacles: 70
+  numRandomObstacles: 50
   numRandomAstheticObjects: 60
   numFollowers: 0
+  numEnemySpawners: 2
   levelFailedUI: {fileID: 0}
   levelPassUI: {fileID: 0}
   levelLoadingUI: {fileID: 7574038019274860962}
