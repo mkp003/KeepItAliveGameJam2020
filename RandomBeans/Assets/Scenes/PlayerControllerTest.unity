@@ -265,6 +265,16 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 766601223}
+    - target: {fileID: 3073925253503542849, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
+        type: 3}
+      propertyPath: accuracyDefault
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073925253503542849, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
+        type: 3}
+      propertyPath: accuracyCurrent
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3073925253503542850, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
         type: 3}
       propertyPath: m_Offset.x
