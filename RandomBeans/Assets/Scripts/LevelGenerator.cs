@@ -11,6 +11,9 @@ public class LevelGenerator : MonoBehaviour
     [Tooltip("Objects that can obstruct characters")]
     [SerializeField]
     private List<GameObject> obstacles;
+    [Tooltip("Objects that cannot block")]
+    [SerializeField]
+    private List<GameObject> astheticObjects;
 
     [Tooltip("Enemy Spawner")]
     private GameObject enempySpawnerPrefab;
@@ -50,10 +53,22 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private int numRandomObstacles;
     [SerializeField]
+    private int numRandomAstheticObjects;
+    [SerializeField]
     [Range(0, 4)]
     private int numFollowers;
 
+    [Header("Dynamic scene references")]
+    [SerializeField]
+    private GameObject levelFailedUI;
+    [SerializeField]
+    private GameObject levelPassUI;
+
     private Vector2 playerStartPosition;
+
+    private int numberOfFollowersEscaped = 0;
+
+    private bool isPlayerAlive = true;
     
     // Start is called before the first frame update
     void Start()
@@ -62,9 +77,14 @@ public class LevelGenerator : MonoBehaviour
         
     }
 
+    public int GetNumberOfFollowers()
+    {
+        return numFollowers;
+    }
+
 
     /// <summary>
-    /// 
+    /// GenerateMap will generate all the objects in the level
     /// </summary>
     private void GenerateMap()
     {
@@ -72,9 +92,9 @@ public class LevelGenerator : MonoBehaviour
         {
             CreateBackground();
             CreateObstacles();
+            CreateAdditionalItems();
             CreateStartAndEndPoint();
             CreatePlayerAndFollowers();
-            CreateFollowers();
         }
         else
         {
@@ -116,9 +136,9 @@ public class LevelGenerator : MonoBehaviour
     }
 
 
-    private void CreateFollowers()
+    private void CreateAdditionalItems()
     {
-
+        
     }
 
 
@@ -148,19 +168,21 @@ public class LevelGenerator : MonoBehaviour
             endPositionX = UnityEngine.Random.Range(0, levelDimensionX);
             endPositionY = UnityEngine.Random.Range(0, levelDimensionY);
         }
-        GameObject endPosition = Instantiate(endPositionPrefab, transform);
-        endPosition.transform.position = new Vector2(endPositionX, endPositionY);
 
         // Remove any objects near the end
-        hitColliders = Physics2D.OverlapCircleAll(endPosition.transform.position, 100);
+        hitColliders = Physics2D.OverlapCircleAll(new Vector2(endPositionX, endPositionY), 20);
         foreach (Collider2D collider in hitColliders)
         {
-            if (collider.gameObject.transform.parent != endPosition)
+            Debug.Log("Something touching the endpoint!");
+            if (collider.gameObject.tag != "Endpoint")
             {
                 Debug.Log("Object in end zone!" + collider.gameObject.name);
                 Destroy(collider.gameObject);
             }
         }
+        // Create the end position
+        GameObject endPosition = Instantiate(endPositionPrefab, transform);
+        endPosition.transform.position = new Vector2(endPositionX, endPositionY);
 
     }
 
@@ -231,14 +253,47 @@ public class LevelGenerator : MonoBehaviour
         {
             type = UnityEngine.Random.Range(0, numObjectTypes);
             Vector2 obstaclePosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), UnityEngine.Random.Range(0, levelDimensionY));
-            GameObject newObstacle = Instantiate(obstacles[type], obstacleContainer.transform);
-            newObstacle.transform.localPosition = new Vector2(obstaclePosition.x, obstaclePosition.y);
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(newObstacle.transform.position, 5);
-            if(hitColliders.Length > 0)
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(obstaclePosition.x, obstaclePosition.y), 10);
+            if(hitColliders.Length == 0)
             {
-                Debug.Log("Overlaping obstacle: destry!!");
-                Destroy(newObstacle);
+                GameObject newObstacle = Instantiate(obstacles[type], obstacleContainer.transform);
+                newObstacle.transform.position = new Vector2(obstaclePosition.x, obstaclePosition.y);
+            }
+            else
+            {
+                Debug.LogError("Positions overlaping: " + hitColliders[0].gameObject.transform.position + obstaclePosition.x + " " + obstaclePosition.y);
             }
         }
+    }
+
+
+    /// <summary>
+    /// FinishLevel will end the level when the plaer reaches the end.
+    /// </summary>
+    public void FinishLevel()
+    {
+        if(numberOfFollowersEscaped != 0)
+        {
+            levelFailedUI.GetComponent<LevelFailedUI>().SetFailedReason("No followers escaped!");
+            levelFailedUI.SetActive(true);
+        }
+        else if (!isPlayerAlive)
+        {
+            levelFailedUI.GetComponent<LevelFailedUI>().SetFailedReason("You Died!");
+            levelFailedUI.SetActive(true);
+        }
+        else
+        {
+            levelPassUI.SetActive(true);
+        }
+    }
+
+
+    /// <summary>
+    /// FollowerEscaped lets the controller know that a follower has escaped!
+    /// </summary>
+    public void FollowerEscaped()
+    {
+        numberOfFollowersEscaped++;
     }
 }

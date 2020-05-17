@@ -23,13 +23,13 @@ public class ExitLevel : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == " ")
+        if(collision.gameObject.tag == "Player")
         {
-            // Trigger event to save people
+            levelGenerator.FinishLevel();
         }
-        else if (collision.gameObject.tag == " ")
+        else if (collision.gameObject.tag == "Follower")
         {
-            // Trigger event to end level.
+            levelGenerator.FollowerEscaped();
         }
     }
 

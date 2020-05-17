@@ -48,7 +48,6 @@ MonoBehaviour:
   obstacles:
   - {fileID: 5522508333640663567, guid: d1f0e539e6f0de34e9119318a9e32cdf, type: 3}
   - {fileID: 8148640901637110005, guid: 25b55881a4309364e869260235432872, type: 3}
-  - {fileID: 5341521536871140067, guid: 90e6781a454dec54d87f86d6148881a3, type: 3}
   mapTile: {fileID: 5373040002262636564, guid: 8c7f1e03210be134ab1ad590dccb12cf, type: 3}
   mapTileSideTopSprite: {fileID: 8118170082073502221, guid: d46a16048e778fa4ba130806ac11adda,
     type: 3}
@@ -64,7 +63,7 @@ MonoBehaviour:
   obstacleContainer: {fileID: 1585490705409818015}
   levelDimensionX: 75
   levelDimensionY: 75
-  numRandomObstacles: 100
+  numRandomObstacles: 70
   numFollowers: 0
 --- !u!1 &1585490705409818015
 GameObject:
