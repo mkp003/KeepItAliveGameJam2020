@@ -62,6 +62,8 @@ MonoBehaviour:
     type: 3}
   playerPrefab: {fileID: 3073925253503542860, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
     type: 3}
+  visionConePrefab: {fileID: 112486383554310710, guid: 2c5f99c60942ac843bd871dcad019a44,
+    type: 3}
   followerPrefab: {fileID: 3073925253503542860, guid: a8a05fb5d88f90e4394606b7ea8fc6ae,
     type: 3}
   mapTileContainer: {fileID: 5879125591985422831}

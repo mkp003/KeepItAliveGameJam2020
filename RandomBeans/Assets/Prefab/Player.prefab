@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 806899573}
   - component: {fileID: 806899572}
   m_Layer: 9
-  m_Name: Sphere
+  m_Name: SixthSense
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806899569}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.413, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 7.5, y: 7.5, z: 6}
   m_Children: []
   m_Father: {fileID: 3073925253503542863}

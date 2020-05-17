@@ -34,6 +34,9 @@ public class LevelGenerator : MonoBehaviour
     private GameObject playerPrefab;
 
     [SerializeField]
+    private GameObject visionConePrefab;
+
+    [SerializeField]
     private GameObject followerPrefab;
 
 
@@ -159,6 +162,7 @@ public class LevelGenerator : MonoBehaviour
     /// </summary>
     private void CreatePlayerAndFollowers()
     {
+        GameObject visionCone = Instantiate(visionConePrefab, transform);
         GameObject player = Instantiate(playerPrefab, transform);
         player.transform.position = playerStartPosition;
         currentPlayer = player;
