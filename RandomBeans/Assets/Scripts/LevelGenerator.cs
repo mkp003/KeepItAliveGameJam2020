@@ -50,7 +50,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     private int numRandomObstacles;
     [SerializeField]
-    [Range(1, 4)]
+    [Range(0, 4)]
     private int numFollowers;
 
     private Vector2 playerStartPosition;
@@ -59,6 +59,7 @@ public class LevelGenerator : MonoBehaviour
     void Start()
     {
         GenerateMap();
+        
     }
 
 
@@ -99,14 +100,18 @@ public class LevelGenerator : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void CreatePlayerAndFollowers()
     {
         GameObject player = Instantiate(playerPrefab, transform);
         player.transform.position = playerStartPosition;
-        for(int i = 0; i < numFollowers; i++)
+        //FindObjectOfType<Camera>().GetComponent<CameraController>().SetPlayer(player);
+        for (int i = 0; i < numFollowers; i++)
         {
             GameObject follower = Instantiate(followerPrefab, transform);
-            player.transform.position = playerStartPosition;
+            follower.transform.position = playerStartPosition;
         }
     }
 
@@ -126,6 +131,12 @@ public class LevelGenerator : MonoBehaviour
         int startPositionX = UnityEngine.Random.Range(0, levelDimensionX);
         int startPositionY = UnityEngine.Random.Range(0, levelDimensionY);
         playerStartPosition = new Vector2(startPositionX, startPositionY);
+        // Remove any objects at the start position
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(playerStartPosition, 5);
+        foreach(Collider2D collider in hitColliders)
+        {
+            Destroy(collider.gameObject);
+        }
 
         // Get an initial end position
         int endPositionX = UnityEngine.Random.Range(0, levelDimensionX);
@@ -137,9 +148,19 @@ public class LevelGenerator : MonoBehaviour
             endPositionX = UnityEngine.Random.Range(0, levelDimensionX);
             endPositionY = UnityEngine.Random.Range(0, levelDimensionY);
         }
-
         GameObject endPosition = Instantiate(endPositionPrefab, transform);
         endPosition.transform.position = new Vector2(endPositionX, endPositionY);
+
+        // Remove any objects near the end
+        hitColliders = Physics2D.OverlapCircleAll(endPosition.transform.position, 100);
+        foreach (Collider2D collider in hitColliders)
+        {
+            if (collider.gameObject.transform.parent != endPosition)
+            {
+                Debug.Log("Object in end zone!" + collider.gameObject.name);
+                Destroy(collider.gameObject);
+            }
+        }
 
     }
 
@@ -212,9 +233,10 @@ public class LevelGenerator : MonoBehaviour
             Vector2 obstaclePosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), UnityEngine.Random.Range(0, levelDimensionY));
             GameObject newObstacle = Instantiate(obstacles[type], obstacleContainer.transform);
             newObstacle.transform.localPosition = new Vector2(obstaclePosition.x, obstaclePosition.y);
-            Collider[] hitColliders = Physics.OverlapSphere(newObstacle.transform.position, newObstacle.GetComponent<CircleCollider2D>().radius);
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(newObstacle.transform.position, 5);
             if(hitColliders.Length > 0)
             {
+                Debug.Log("Overlaping obstacle: destry!!");
                 Destroy(newObstacle);
             }
         }

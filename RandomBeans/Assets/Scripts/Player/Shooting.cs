@@ -15,55 +15,69 @@ public class Shooting : MonoBehaviour
 
     public GameObject impactEffect;
 
-    public LineRenderer lineRenderer;
+    public LineRenderer shotLine;
 
     Animator animator;
 
-    public float accuracyDefault = 2.0f;
-    public float accuracyCurrent = 2.0f;
-    public float accuracyLimit = 0.001f;
-    public float accuracyScalar = 0.9f;
+    public float accuracyCurrent = 0f;
+    public float accuracyLimit = 30f;
+    public float accuracySpeed = 20f;
+
+    private TopDownPlayerMovement playerScript;
+
+    public Vector3 targetDirection;
+
+    public int ammunition;
+    public int pistolMax = 7;
+    public bool isReloading = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        playerScript = GetComponent<TopDownPlayerMovement>();
         animator = GetComponent<Animator>();
+        ammunition = pistolMax;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if (Input.GetButtonUp("Fire1"))
+
+        if (Input.GetButtonUp("Fire1") && ammunition > 0 && !isReloading)
         {
             StartCoroutine(Shoot());
+        }
+        
+        if (Input.GetButtonDown("Jump") && ammunition < pistolMax)
+        {
+            StartCoroutine(Reload());
         }
     }
 
     private void FixedUpdate()
     {
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && ammunition > 0)
         {
-            improveAccuracy();
+            Aiming();
         }
     }
 
-    void improveAccuracy()
+    void Aiming()
     {
-        
-        if (accuracyCurrent > accuracyLimit)
-        {
-            float newAccuracy = accuracyCurrent * accuracyScalar;
+        playerScript.isShooting = true;
 
-            if (newAccuracy > accuracyLimit)
+        if (accuracyCurrent < accuracyLimit)
+        {
+            float newAccuracy = accuracyCurrent  + Time.deltaTime * accuracySpeed;
+
+            if (newAccuracy < accuracyLimit)
             {
                 accuracyCurrent = newAccuracy;
             } else
             {
                 accuracyCurrent = accuracyLimit;
             }
-            Debug.Log(accuracyCurrent.ToString());
         }
         
     }
@@ -71,9 +85,25 @@ public class Shooting : MonoBehaviour
     // Raycast version!!!
     IEnumerator Shoot()
     {
-        Vector3 targetDirection = firePoint.position + firePoint.up * 10;
+        /*
+        targetDirection = firePoint.position + firePoint.up.normalized;
+        targetDirection.Normalize();
         targetDirection.x += Random.Range(-accuracyCurrent, accuracyCurrent);
         targetDirection.y += Random.Range(-accuracyCurrent, accuracyCurrent);
+        */
+
+        Vector3 firePointBase = firePoint.up.normalized;
+        float firePointAngle = Mathf.Atan2(firePointBase.y, firePointBase.x) * Mathf.Rad2Deg;
+        if (firePointAngle < 0) firePointAngle += 360;
+
+        float accuracyBound = accuracyLimit - accuracyCurrent;
+        if (accuracyBound > 0)
+        {
+            firePointAngle += Random.Range(-accuracyBound, accuracyBound);
+        }
+        float firePointAngleRad = firePointAngle * (Mathf.PI / 180f);
+        targetDirection = new Vector3(Mathf.Cos(firePointAngleRad), Mathf.Sin(firePointAngleRad));
+
 
 
 
@@ -90,23 +120,37 @@ public class Shooting : MonoBehaviour
             GameObject effect = Instantiate(impactEffect, hitInfo.point, Quaternion.identity);
             Destroy(effect, 0.5f);
 
-            lineRenderer.SetPosition(0, firePoint.position);
-            lineRenderer.SetPosition(1, hitInfo.point);
+            shotLine.SetPosition(0, firePoint.position);
+            shotLine.SetPosition(1, hitInfo.point);
         } else
         {
-            lineRenderer.SetPosition(0, firePoint.position);
-            lineRenderer.SetPosition(1, firePoint.position + targetDirection * 100);
+            shotLine.SetPosition(0, firePoint.position);
+            shotLine.SetPosition(1, firePoint.position + targetDirection * 100);
         }
 
         animator.SetTrigger("Shoot");
 
-        lineRenderer.enabled = true;
+        shotLine.enabled = true;
 
         yield return new WaitForSeconds(0.02f);
 
-        lineRenderer.enabled = false;
+        shotLine.enabled = false;
 
-        accuracyCurrent = accuracyDefault;
+        accuracyCurrent = 0;
+
+        playerScript.isShooting = false;
+
+        ammunition -= 1;
         
+    }
+
+    IEnumerator Reload()
+    {
+        playerScript.isShooting = false;
+        isReloading = true;
+        ammunition = pistolMax;
+        animator.SetTrigger("Reload");
+        yield return new WaitForSeconds(0.75f);
+        isReloading = false;
     }
 }

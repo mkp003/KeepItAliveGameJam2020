@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel.Design.Serialization;
-using System.Diagnostics;
 using System.Security.Cryptography;
+using System.Threading;
 using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
     public Transform player;
 
-    public float attackDistance;
+    public float attackDistance = 1;
 
     private bool canAttack = true;
 
@@ -33,12 +33,12 @@ public class Zombie : MonoBehaviour
     {
         if(Vector3.Distance(gameObject.transform.position, player.position) < attackDistance)
         {
-            Debug.log.write("true");
+            Debug.Log("Player in Distance");
             return true;
         }
         else
         {
-            Debug.log.write("false");
+            Debug.Log("Player not in distance");
             return false;
         }
 
@@ -46,23 +46,30 @@ public class Zombie : MonoBehaviour
 
     public void Attack()
     {
-        Debug.log.write("attack");
+        Debug.Log("Attack");
+        //gameObject.SendMessage("setTarget", player.transform);
     }
 
     public void Idle()
     {
-        Debug.log.write("idle");
+        Debug.Log("Idle");
+        transform.position = Vector3.MoveTowards(transform.position, player.position,(float) 0.01);
     }
 
     void BuildZombieAI()
     {
         AIController inRange = new AIController();
-        inRange.setChoice(PlayerInRange);
+        inRange.SetChoice(PlayerInRange);
 
         AIController attack = new AIController();
-        attack.setCommand(Attack);
+        attack.SetCommand(Attack);
 
         AIController idle = new AIController();
-        idle.setCommand(Idle);
+        idle.SetCommand(Idle);
+
+        inRange.SetLeft(attack);
+        inRange.SetRight(idle);
+
+        zombieAI = inRange;
     }
 }

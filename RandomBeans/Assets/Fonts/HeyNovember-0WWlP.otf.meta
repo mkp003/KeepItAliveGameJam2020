@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: fd181b0b6315e4949bc9e823e001ba7b
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 36
+  forceTextureCase: -1
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Hey November
+  fontNames:
+  - Hey November
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: c8d16660fad03f840aa104dbb7ecdc5a, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

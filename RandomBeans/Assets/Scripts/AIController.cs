@@ -5,14 +5,14 @@ using UnityEngine;
 public class AIController : MonoBehaviour
 {
     public delegate bool Choice();
-    public delegate bool Command();
+    public delegate void Command();
 
     AIController left;
     AIController right;
     Choice choiceMade;
     Command commandTaken;
 
-    public AIContoller()
+    public void AIContoller()
     {
         left = null;
         right = null;
@@ -40,9 +40,9 @@ public class AIController : MonoBehaviour
         right = r;
     }
 
-    public bool Choice()
+    public bool Choose()
     {
-        return choiceMade;
+        return choiceMade();
     }
 
     public void goLeft()
@@ -61,13 +61,13 @@ public class AIController : MonoBehaviour
         {
             commandTaken();
         }
-        else if (Choice())
+        else if (Choose())
         {
-            goRight();
+            goLeft();
         }
         else
         {
-            goLeft();
+            goRight();
         }
     }
 }
