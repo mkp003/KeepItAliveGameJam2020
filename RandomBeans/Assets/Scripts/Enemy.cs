@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        Destroy(gameObject.GetComponent<CircleCollider2D>());
         animator.SetTrigger("Dying");
         Destroy(gameObject, 4f);
     }
