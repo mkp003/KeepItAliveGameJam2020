@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //using System.Diagnostics;
 using UnityEngine;
 
-public class playerFollower : MonoBehaviour
+public class playerFollower : Person
 {
 
     private Transform player;
@@ -20,6 +20,7 @@ public class playerFollower : MonoBehaviour
         isFollowingPLayer = true;
         targetLocation = transform.position;
         rb = GetComponent<Rigidbody2D>();
+        health = 40;
     }
 
     // Update is called once per frame
