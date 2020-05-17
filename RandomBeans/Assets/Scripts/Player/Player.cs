@@ -15,6 +15,7 @@ public class Player : Person
     private Camera cam;
 
     public bool isShooting = false;
+    LevelGenerator levelGen;
 
     Vector2 movement;
     Vector2 mousePos;
@@ -25,6 +26,7 @@ public class Player : Person
     // Start is called before the first frame update
     void Start()
     {
+        levelGen = GameObject.FindObjectOfType<LevelGenerator>();
         health = 100;
         cam = FindObjectOfType<Camera>();
         animator = GetComponent<Animator>();
@@ -97,5 +99,11 @@ public class Player : Person
         {
             legs.SetInteger("Direction", 4);
         } 
+    }
+
+    public override void Die()
+    {
+        levelGen.setPlayerStatus(false);
+        levelGen.FinishLevel();
     }
 }

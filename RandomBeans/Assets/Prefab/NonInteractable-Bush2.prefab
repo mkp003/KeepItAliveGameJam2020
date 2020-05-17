@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3923408637811506730}
   - component: {fileID: 2113984525757099234}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: NonInteractable-Bush2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

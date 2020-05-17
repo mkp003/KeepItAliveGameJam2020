@@ -37,7 +37,7 @@ public class Zombie : Enemy
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
         if ( health > 0 && !isAttacking)
@@ -141,6 +141,7 @@ public class Zombie : Enemy
         Collider2D[] targets = Physics2D.OverlapCircleAll(attackPos.position, attackRange, targetLayer);
         for (int i = 0; i < targets.Length; i++)
         {
+            Debug.Log("Target struck: " + targets[i].name + " - Index: " + i);
             targets[i].GetComponent<Person>().TakeDamage(damage);
         }
 

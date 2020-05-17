@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8716227354290143135}
   - component: {fileID: 6040062117805632855}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: NonInteractable-Stick1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

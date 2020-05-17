@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6923563098370222849}
   - component: {fileID: 786766695871989171}
   - component: {fileID: 6048304986959861903}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Object1
   m_TagString: Endpoint
   m_Icon: {fileID: 0}
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 4395444356275825962}
   - component: {fileID: 721977704976677249}
   - component: {fileID: 530681628753073897}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Object2
   m_TagString: Endpoint
   m_Icon: {fileID: 0}
@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 2018194258954296118}
   - component: {fileID: 7026924563987502391}
   - component: {fileID: 7085541711521956282}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ExitPoint
   m_TagString: Endpoint
   m_Icon: {fileID: 0}
@@ -361,7 +361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3472978437375968961}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LevelExit
   m_TagString: Endpoint
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 6264889349423654487}
   - component: {fileID: 6151709167878496839}
   - component: {fileID: 5304604425195536811}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Object3
   m_TagString: Endpoint
   m_Icon: {fileID: 0}

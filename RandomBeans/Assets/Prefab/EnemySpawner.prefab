@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1206826135390668061}
   - component: {fileID: 212051747191338700}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EnemySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,5 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: {fileID: 5137515152512123867, guid: 17540d3e32b97114195ed735e0e1fd8b,
     type: 3}
-  spawnTime: 5
+  spawnTime: 10
   spawnAutomatically: 1

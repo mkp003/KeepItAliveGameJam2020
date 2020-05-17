@@ -5,7 +5,7 @@ using UnityEngine;
 public class Person : MonoBehaviour
 {
     public int health;
-
+    
     public void TakeDamage(int damage)
     {
         health = health - damage;
@@ -16,8 +16,8 @@ public class Person : MonoBehaviour
         }
     }
 
-    public void Die()
+    public virtual void Die()
     {
-        Debug.Log("Person is dead!");
+
     }
 }

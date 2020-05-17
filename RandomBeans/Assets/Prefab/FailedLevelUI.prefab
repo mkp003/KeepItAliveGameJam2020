@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 362690583629760348}
   - component: {fileID: 362690583629760349}
   - component: {fileID: 362690583629760346}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 362690583904411876}
   - component: {fileID: 362690583904411878}
   - component: {fileID: 362690583904411879}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   m_Component:
   - component: {fileID: 362690584174552010}
   - component: {fileID: 6507469737867380371}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FailedLevelUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 362690584283078080}
   - component: {fileID: 362690584283078082}
   - component: {fileID: 362690584283078083}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 362690584906104575}
   - component: {fileID: 362690584906104561}
   - component: {fileID: 362690584906104574}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -405,7 +405,7 @@ GameObject:
   - component: {fileID: 362690585460983240}
   - component: {fileID: 362690585460983242}
   - component: {fileID: 362690585460983243}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,7 +480,7 @@ GameObject:
   - component: {fileID: 362690585622841274}
   - component: {fileID: 362690585622841275}
   - component: {fileID: 362690585622841272}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -582,7 +582,7 @@ GameObject:
   - component: {fileID: 5831850559566858574}
   - component: {fileID: 6683719205592467468}
   - component: {fileID: 300552361709174837}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ReasonForFailure
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 907394565940558722}
   - component: {fileID: 907394565940558723}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LevelController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 1552568614915791555}
   - component: {fileID: 8658500250537481137}
   - component: {fileID: 2525761816714360733}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Text (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3227327699299534817}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Obstacles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 1774468710077697896}
   - component: {fileID: 8985122674330023940}
   - component: {fileID: 858305737000050655}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 8349429406243349996}
   - component: {fileID: 1576557938037469941}
   - component: {fileID: 8237151317240958040}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Heading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 7603567080633161854}
   - component: {fileID: 5753306016285043617}
   - component: {fileID: 3157286958165491566}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,7 +449,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8502799121310240307}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BackgroundTiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -481,7 +481,7 @@ GameObject:
   - component: {fileID: 7129827409656617296}
   - component: {fileID: 9013826613738867149}
   - component: {fileID: 3548042565407999236}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -558,7 +558,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6250585506845118}
   - component: {fileID: 3092203634454061292}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LoadingScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}

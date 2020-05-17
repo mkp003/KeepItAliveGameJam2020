@@ -404,6 +404,17 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
+    public void FollowerDied()
+    {
+        levelFailedUI.GetComponent<LevelFailedUI>().SetFailedReason("No followers escaped!");
+        levelFailedUI.SetActive(true);
+    }
+
+    public void setPlayerStatus(bool value)
+    {
+        isPlayerAlive = value;
+    }
+
 
     /// <summary>
     /// FollowerEscaped lets the controller know that a follower has escaped!
