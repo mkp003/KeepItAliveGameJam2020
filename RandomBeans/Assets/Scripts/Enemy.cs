@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int health = 100;
+    public int health = 20;
 
-    public GameObject deathEffect;
+    public Animator animator;
 
     public void TakeDamage(int damage)
     {
@@ -20,9 +20,8 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
-        Destroy(effect, 2f);
-        Destroy(gameObject);
+        animator.SetTrigger("Dying");
+        Destroy(gameObject, 4f);
     }
 
 

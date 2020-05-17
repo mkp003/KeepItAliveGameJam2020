@@ -204,7 +204,7 @@ public class LevelGenerator : MonoBehaviour
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(enemyPosition, 1);
             while (hitColliders.Length != 0)
             {
-                enemyPosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), UnityEngine.Random.Range(0, levelDimensionY));
+                enemyPosition = new Vector2(UnityEngine.Random.Range(3, levelDimensionX - 3), UnityEngine.Random.Range(3, levelDimensionY - 3));
                 hitColliders = Physics2D.OverlapCircleAll(enemyPosition, 1);
                 yield return null;
             }
@@ -246,10 +246,9 @@ public class LevelGenerator : MonoBehaviour
         int startPositionY = UnityEngine.Random.Range(5, levelDimensionY - 5);
         playerStartPosition = new Vector2(startPositionX, startPositionY);
         // Remove any objects at the start position
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(playerStartPosition, 5, 11);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(playerStartPosition, 5);
         foreach(Collider2D collider in hitColliders)
         {
-            Debug.Log("Stuff at the start area, deleting now");
             Destroy(collider.gameObject);
         }
 
