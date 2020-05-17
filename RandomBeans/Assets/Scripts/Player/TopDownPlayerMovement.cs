@@ -27,6 +27,7 @@ public class TopDownPlayerMovement : MonoBehaviour
     {
         cam = FindObjectOfType<Camera>();
         animator = GetComponent<Animator>();
+        coneOfVision = GameObject.FindGameObjectWithTag("VisionCone").GetComponent<ConeOfVision>();
     }
 
     // Update is called once per frame
