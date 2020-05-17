@@ -66,6 +66,7 @@ public class LevelGenerator : MonoBehaviour
     private GameObject levelPassUI;
 
     private Vector2 playerStartPosition;
+    private GameObject currentPlayer;
 
     private int numberOfFollowersEscaped = 0;
 
@@ -75,7 +76,6 @@ public class LevelGenerator : MonoBehaviour
     private bool areObstaclesCreated = false;
     private bool areNonInteractablesCreated = false;
     private bool areStartandEndCreated = false;
-    private bool arePlayerAndFollowersCreated = false;
 
     // Start is called before the first frame update
     void Start()
@@ -158,19 +158,33 @@ public class LevelGenerator : MonoBehaviour
     {
         GameObject player = Instantiate(playerPrefab, transform);
         player.transform.position = playerStartPosition;
+        currentPlayer = player;
         FindObjectOfType<Camera>().GetComponent<CameraController>().SetPlayer(player);
         for (int i = 0; i < numFollowers; i++)
         {
             GameObject follower = Instantiate(followerPrefab, transform);
             follower.transform.position = playerStartPosition;
         }
-        arePlayerAndFollowersCreated = true;
     }
 
 
+    /// <summary>
+    /// CreateAdditionalItems will create an assortment of non-interactable objects 
+    /// and place them n the scene for asthetic purposes.
+    /// </summary>
     private void CreateAdditionalItems()
     {
+        int numObjectTypes = astheticObjects.Count;
+        int type = 0;
+        for (int i = 0; i < numRandomAstheticObjects; i++)
+        {
+            type = UnityEngine.Random.Range(0, numObjectTypes);
+            Vector2 objPosition = new Vector2(UnityEngine.Random.Range(0, levelDimensionX), UnityEngine.Random.Range(0, levelDimensionY));
+            GameObject newObj = Instantiate(astheticObjects[type], obstacleContainer.transform);
+            newObj.transform.position = new Vector2(objPosition.x, objPosition.y);
+        }
         areNonInteractablesCreated = true;
+        
     }
 
 
@@ -180,11 +194,11 @@ public class LevelGenerator : MonoBehaviour
     private void CreateStartAndEndPoint()
     {
         // Generate start position
-        int startPositionX = UnityEngine.Random.Range(0, levelDimensionX);
-        int startPositionY = UnityEngine.Random.Range(0, levelDimensionY);
+        int startPositionX = UnityEngine.Random.Range(5, levelDimensionX - 5 );
+        int startPositionY = UnityEngine.Random.Range(5, levelDimensionY - 5);
         playerStartPosition = new Vector2(startPositionX, startPositionY);
         // Remove any objects at the start position
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(playerStartPosition, 5, 11);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(playerStartPosition, 20, 11);
         foreach(Collider2D collider in hitColliders)
         {
             Debug.Log("Stuff at the start area, deleting now");
@@ -316,8 +330,16 @@ public class LevelGenerator : MonoBehaviour
     public void FinishLevel()
     {
         // Cast to see if there is a follower nearby
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(currentPlayer.transform.position, 10);
+        foreach(Collider2D obj in hitColliders)
+        {
+            if(obj.gameObject.tag == "Follower")
+            {
+                numberOfFollowersEscaped++;
+            }
+        }
 
-        if(numberOfFollowersEscaped == 0)
+        if (numberOfFollowersEscaped == 0)
         {
             levelFailedUI.GetComponent<LevelFailedUI>().SetFailedReason("No followers escaped!");
             levelFailedUI.SetActive(true);
