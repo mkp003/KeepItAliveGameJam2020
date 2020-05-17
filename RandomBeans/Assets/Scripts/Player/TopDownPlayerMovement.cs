@@ -7,7 +7,7 @@ using Vector2 = UnityEngine.Vector2;
 
 public class TopDownPlayerMovement : MonoBehaviour
 {
-
+    [SerializeField] private ConeOfVision coneOfVision;
     public float moveSpeed = 5f;
 
     public Rigidbody2D rb;
@@ -49,6 +49,8 @@ public class TopDownPlayerMovement : MonoBehaviour
         
         Vector2 lookDir = mousePos - rb.position;
         lookDir.Normalize();
+        coneOfVision.SetAimingAngle(new UnityEngine.Vector3(lookDir.x, lookDir.y));
+        coneOfVision.SetOrigin(transform.position);
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
         rb.rotation = angle;
     }

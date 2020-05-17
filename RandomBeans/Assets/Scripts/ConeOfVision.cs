@@ -9,27 +9,28 @@ public class ConeOfVision : MonoBehaviour
     Mesh coneOfView;
     float fieldOfView;
     float viewDistance;
+    float startingAngle;
+    Vector3 origin;
 
     // Start is called before the first frame update
     void Start()
     {
         coneOfView = new Mesh();
         GetComponent<MeshFilter>().mesh = coneOfView;
-        fieldOfView = 90;
-        viewDistance = 80f;
+        fieldOfView = 60;
+        viewDistance = 20f;
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        float angle = 0f;
-        int rayCount = 50;
+        float angle = startingAngle;
+        int rayCount = 300;
         float angleBetweenRays = fieldOfView / rayCount;
 
         Vector3[] verticies = new Vector3[rayCount + 2];
         Vector2[] uv = new Vector2[verticies.Length];
         int[] triangles = new int[rayCount * 3];
-        Vector3 origin = Vector3.zero;
         verticies[0] = origin;
 
         int vertexIndex = 1;
@@ -42,7 +43,8 @@ public class ConeOfVision : MonoBehaviour
                 vertex = origin + GetVectorFromAngle(angle) * viewDistance;
             }
             else {
-                vertex = raycastHit2D.point;
+                Vector3 toInsideObject = GetVectorFromAngle(angle) * 0.1f;
+                vertex = raycastHit2D.point + new Vector2(toInsideObject.x, toInsideObject.y);
             }
 
 
@@ -66,5 +68,16 @@ public class ConeOfVision : MonoBehaviour
     Vector3 GetVectorFromAngle(float angle) {
         float angleRad = angle * (Mathf.PI / 180f);
         return new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+    }
+
+    public void SetOrigin(Vector3 newOrigin) {
+        origin = newOrigin;
+    }
+
+    public void SetAimingAngle(Vector3 direction) {
+        direction = direction.normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        if (angle < 0) angle += 360;
+        startingAngle = angle - (fieldOfView /2f);
     }
 }
