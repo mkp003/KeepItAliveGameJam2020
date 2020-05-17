@@ -51,8 +51,12 @@ public class Shooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetButton("Fire1") && ammunition > 0 && !isReloading)
+        {
+            Aiming();
+        }
 
-        if (Input.GetButtonUp("Fire1") && ammunition > 0 && !isReloading)
+        if (Input.GetButtonUp("Fire1") && ammunition > 0 && playerScript.isShooting )
         {
             StartCoroutine(Shoot());
         }
@@ -65,10 +69,7 @@ public class Shooting : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetButton("Fire1") && ammunition > 0)
-        {
-            Aiming();
-        }
+        
     }
 
     void Aiming()
@@ -124,12 +125,17 @@ public class Shooting : MonoBehaviour
 
     }
 
-    // Raycast version!!!
-    IEnumerator Shoot()
+    void CancelAiming()
     {
         rightAimLine.enabled = false;
         leftAimLine.enabled = false;
+        accuracyCurrent = 0;
+        playerScript.isShooting = false;
+    }
 
+    // Raycast version!!!
+    IEnumerator Shoot()
+    {
         Vector3 firePointBase = firePoint.up.normalized;
         float firePointAngle = Mathf.Atan2(firePointBase.y, firePointBase.x) * Mathf.Rad2Deg;
         if (firePointAngle < 0) firePointAngle += 360;
@@ -166,6 +172,8 @@ public class Shooting : MonoBehaviour
             shotLine.SetPosition(1, firePoint.position + targetDirection * 100);
         }
 
+        CancelAiming();
+
         animator.SetTrigger("Shoot");
 
         pistolShot.Play();
@@ -176,17 +184,16 @@ public class Shooting : MonoBehaviour
 
         shotLine.enabled = false;
 
-        accuracyCurrent = 0;
-
-        playerScript.isShooting = false;
-
         ammunition -= 1;
         
     }
 
     IEnumerator Reload()
     {
-        playerScript.isShooting = false;
+        if (playerScript.isShooting)
+        {
+            CancelAiming();
+        }
         isReloading = true;
         ammunition = pistolMax;
         animator.SetTrigger("Reload");
