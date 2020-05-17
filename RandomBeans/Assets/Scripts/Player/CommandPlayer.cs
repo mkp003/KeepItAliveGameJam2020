@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CommandPlayer : MonoBehaviour
 {
-
+    LinkedList<GameObject> followers = new LinkedList<GameObject>();
     Animator animator;
 
     // Start is called before the first frame update
@@ -24,7 +24,21 @@ public class CommandPlayer : MonoBehaviour
 
     void Command()
     {
-        // TO DO - command the escortee
         animator.SetTrigger("Command");
+        foreach (GameObject follower in followers) {
+            follower.GetComponent<playerFollower>().toggleFollow();
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D col) {
+        if (col.gameObject.tag.Equals("Follower")) {
+            followers.AddFirst(col.gameObject);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col) {
+        if (col.gameObject.tag.Equals("Follower")) {
+            followers.Remove(col.gameObject);
+        }
     }
 }
